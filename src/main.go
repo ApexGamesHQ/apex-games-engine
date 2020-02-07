@@ -14,8 +14,16 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/ApexGamesHQ/apex-games-engine/src/engine"
+)
 
 func main() {
-	fmt.Println("New")
+	fmt.Println("Starting the Apex Games LIVE service")
+
+	apEngine := engine.New()
+
+	_ = apEngine
 }

@@ -55,9 +55,5 @@ func (screen *Screen) CaptureBounds(displayID int, bounds image.Rectangle) (imag
 		return nil, fmt.Errorf("Display ID of '%d' is too small", displayID)
 	}
 
-	img, err := screenshot.CaptureRect(bounds)
-	if err != nil {
-		return nil, err
-	}
-	return img, nil
+	return screenshot.CaptureRect(bounds)
 }

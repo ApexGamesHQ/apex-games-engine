@@ -42,11 +42,12 @@ func (screen *Screen) CaptureFullscreen(displayID int) (image.Image, error) {
 	}
 
 	bounds := screenshot.GetDisplayBounds(displayID)
-	return screen.CaptureBounds(displayID, bounds)
+	return screenshot.CaptureRect(bounds)
 }
 
 // CaptureBounds captures the given rectange and returns the image
-func (screen *Screen) CaptureBounds(displayID int, bounds image.Rectangle) (image.Image, error) {
+func (screen *Screen) CaptureBounds(displayID int,
+	bounds image.Rectangle) (image.Image, error) {
 	numDisplays := screenshot.NumActiveDisplays()
 	if displayID > numDisplays {
 		return nil, fmt.Errorf("Display ID of '%d' is too large", displayID)
@@ -54,6 +55,12 @@ func (screen *Screen) CaptureBounds(displayID int, bounds image.Rectangle) (imag
 	if displayID < 0 {
 		return nil, fmt.Errorf("Display ID of '%d' is too small", displayID)
 	}
+	// Offset for display ID
+	displayBounds := screenshot.GetDisplayBounds(displayID)
+	bounds.Min.X = displayBounds.Min.X + bounds.Min.X
+	bounds.Max.X = bounds.Min.X + bounds.Max.X
+	bounds.Min.Y = displayBounds.Min.Y + bounds.Min.Y
+	bounds.Max.Y = bounds.Min.Y + bounds.Max.Y
 
 	return screenshot.CaptureRect(bounds)
 }
